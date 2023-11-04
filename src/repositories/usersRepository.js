@@ -6,6 +6,12 @@ exports.findByEmail = async (email) => {
   return { user: verifyEmail };
 };
 
+exports.findById = async (id) => {
+  const verifyId = await knex("users").where("id", id).first();
+  if (!verifyId) return { user: null };
+  return { user: verifyId };
+};
+
 exports.saveUser = async (user) => {
   await knex("users").insert(user);
 };
