@@ -3,6 +3,7 @@ const {
   createProduct,
   listProducts,
   getProductById,
+  deleteProduct,
 } = require("./controllers/productsController");
 const { createUser, login } = require("./controllers/usersController");
 const multer = require("multer")();
@@ -18,5 +19,6 @@ route.use(authorizedUser);
 route.post("/products", multer.single("product_img"), createProduct);
 route.get("/products", listProducts);
 route.get("/products/:id", getProductById);
+route.delete("/products/:id", deleteProduct);
 
 module.exports = route;

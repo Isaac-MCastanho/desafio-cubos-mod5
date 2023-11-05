@@ -1,8 +1,9 @@
-const { uploadImg } = require("../infra/bucket/useCases/imgFile");
+const { uploadImg, deleteImg } = require("../infra/bucket/useCases/imgFile");
 const {
   saveProduct,
   findByAll,
   findById,
+  deleteById,
 } = require("../repositories/productsRepository");
 
 exports.createProduct = async (req, res) => {
@@ -43,4 +44,16 @@ exports.listProducts = async (req, res) => {
   const products = await findByAll();
 
   res.status(200).json(products);
+};
+
+exports.deleteProduct = async (req, res) => {
+  const { id } = req.params;
+  const { product } = await findById(id);
+
+  if (!product) return res.status(404).json({ message: "product not found!" });
+
+  await deleteImg(product.product_img);
+  await deleteById(product.id);
+
+  res.status(204).json();
 };
