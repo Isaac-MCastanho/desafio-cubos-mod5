@@ -1,5 +1,8 @@
 const { uploadImg } = require("../infra/bucket/useCases/imgFile");
-const { saveProduct } = require("../repositories/productsRepository");
+const {
+  saveProduct,
+  findByAll,
+} = require("../repositories/productsRepository");
 
 exports.createProduct = async (req, res) => {
   const { describe, price } = req.query;
@@ -24,4 +27,10 @@ exports.createProduct = async (req, res) => {
     console.error(error);
     return res.status(500).json({ mensagem: "Internal service error." });
   }
+};
+
+exports.listProducts = async (req, res) => {
+  const products = await findByAll();
+
+  res.status(200).json(products);
 };
