@@ -1,4 +1,4 @@
-const knex = require("../../connection");
+const knex = require("../infra/database/connection");
 
 exports.findByEmail = async (email) => {
   const verifyEmail = await knex("users").where("email", email).first();
