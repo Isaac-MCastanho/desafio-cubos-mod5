@@ -1,6 +1,8 @@
 const {
   saveOrdered,
   saveOrderedProducts,
+  findOrderedByAll,
+  findOrderProductsByOrdered,
 } = require("../repositories/orderedRepository");
 const { findById } = require("../repositories/productsRepository");
 
@@ -39,4 +41,25 @@ exports.createOrdered = async (req, res) => {
     });
   });
   res.status(201).send();
+};
+exports.listOrders = async (req, res) => {
+  const ordersList = await findOrderedByAll().then((orders) => {
+    console.log(orders);
+    return orders.map((ordered) => ({
+      ordered,
+    }));
+  });
+
+  const ordersProductsListPromise = ordersList.map(async (orderedItem) => {
+    console.log(orderedItem);
+    const orderProducts = await findOrderProductsByOrdered(
+      orderedItem.ordered.id
+    );
+    orderedItem.order_products = orderProducts;
+    return orderedItem;
+  });
+
+  const ordersProductsList = await Promise.all(ordersProductsListPromise);
+
+  res.json(ordersProductsList);
 };

@@ -1,5 +1,8 @@
 const { authorizedUser } = require("./Middlewares/authentication");
-const { createOrdered } = require("./controllers/orderedController");
+const {
+  createOrdered,
+  listOrders,
+} = require("./controllers/orderedController");
 const {
   createProduct,
   listProducts,
@@ -24,5 +27,6 @@ route.delete("/products/:id", deleteProduct);
 
 // Ordered routes
 route.post("/ordered", createOrdered);
+route.get("/ordered", listOrders);
 
 module.exports = route;

@@ -9,3 +9,10 @@ exports.saveOrderedProducts = async (order_products) => {
     await knex("order_products").insert(order_products).returning("*")
   )[0];
 };
+
+exports.findOrderedByAll = async () => {
+  return await knex("ordered");
+};
+exports.findOrderProductsByOrdered = async (ordered_id) => {
+  return await knex("order_products").where("ordered_id", ordered_id);
+};
